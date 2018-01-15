@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <h1>Paper & Rock & Scissors</h1>
+    <p>You play for 5 wins.
+    <p>Check out the browser console for game results (f12 -> console tab)</p>
+    <p>start the game by clicking Play-button (cancel will quit the game)</p>
+    <input id="button" type="submit" name="button" onclick="game();" value="Play"/>
+
+    <script>
+      var playerScore; var computerScore;
+      //function to let computer make a choice
+      function computerPlay(){
+        let a = Math.floor((Math.random()*100)+1);
+        if (a <=33.33) {return 'paper';}
+        else if ((a > 33.33)&&(a<=66.66)) {return 'rock';}
+        else {return 'scissors';}
+      }
+      //the actual game loop
+      function game(){
+        //in the beginning set values to zero
+          playerScore = 0; computerScore = 0;
+          let playerSelection = "";
+          let computerSelection = "";
+          //the start of the loop
+        do {
+
+          //prompt for proper value
+          do{
+            playerSelection = prompt("Paper, rock or scissors? (Only proper value plays a round)");
+            } while (playerSelection.toLowerCase() != 'paper'
+              && playerSelection.toLowerCase()!= 'rock'
+              && playerSelection.toLowerCase() != 'scissors');
+          // computer's value
+          computerSelection = computerPlay();
+          //play a round and log to console
+          console.log(playRound(playerSelection, computerSelection));
+        } while(playerScore<5 && computerScore<5);//continue loop until we reach 5 wins
+
+        if(playerScore == 5){
+          console.log("You won with score: " + playerScore + " - " + computerScore);
+        }
+        else{
+          console.log("Computer won with score: " + computerScore + " - " + playerScore);
+        }
+      }
+
+      //lets define what a round of game does
+      function playRound(playerSelection, computerSelection){
+        let result1 = "You lose: " + computerSelection + " beats " + playerSelection;
+        let result2 = "Draw, you chose same as computer: " + playerSelection;
+        let result3 = "You win: " + playerSelection + " beats " + computerSelection;
+        //format players choice so we can compare
+        playerSelection = playerSelection.toLowerCase();
+        //cases of losses first
+        if (playerSelection == 'rock' && computerSelection == 'paper'){
+          computerScore++;
+          return result1;
+        }
+        else if(playerSelection == 'scissors' && computerSelection =='rock'){
+          computerScore++;
+          return result1;
+        }
+        else if (playerSelection == 'paper' && computerSelection=='scissors'){
+          computerScore++;
+          return result1;
+        }
+        //then cases of draws with single statement
+        else if(computerSelection == playerSelection){
+          return result2;
+        }
+        //and finally any other case means that you win
+        else {
+          playerScore++;
+          return result3;
+        }
+      }
+    </script>
+  </body>
+</html>
